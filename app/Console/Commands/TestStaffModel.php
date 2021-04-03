@@ -39,10 +39,9 @@ class TestStaffModel extends Command
     public function handle()
     {
 
-        $staff = User::find(1);
+        $staffs = User::all();
 
-        var_dump($staff->created_at);
-        var_dump($staff->updated_at);
+        var_dump($staffs);
 
         return 0;
     }
