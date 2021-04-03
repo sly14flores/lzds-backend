@@ -63,6 +63,26 @@ return [
             ]) : [],
         ],
 
+        'lzds' => [
+            'driver' => 'mysql',
+            'url' => env('LZDS_DATABASE_URL'),
+            'host' => env('LZDS_DB_HOST', '127.0.0.1'),
+            'port' => env('LZDS_DB_PORT', '3306'),
+            'database' => env('LZDS_DB_DATABASE', 'forge'),
+            'username' => env('LZDS_DB_USERNAME', 'forge'),
+            'password' => env('LZDS_DB_PASSWORD', ''),
+            'unix_socket' => env('LZDS_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],        
+
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
