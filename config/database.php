@@ -81,6 +81,26 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+        ],
+        
+        'test' => [
+            'driver' => 'mysql',
+            'url' => env('LZDS_TEST_DATABASE_URL'),
+            'host' => env('LZDS_DB_TEST_HOST', '127.0.0.1'),
+            'port' => env('LZDS_DB_TEST_PORT', '3306'),
+            'database' => env('LZDS_DB_TEST_DATABASE', 'forge'),
+            'username' => env('LZDS_DB_TEST_USERNAME', 'forge'),
+            'password' => env('LZDS_DB_TEST_PASSWORD', ''),
+            'unix_socket' => env('LZDS_DB_TEST_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => true,
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
         ],        
 
         'pgsql' => [
