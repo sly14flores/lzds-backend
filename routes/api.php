@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+use App\Http\Controllers\Api\AddressesController;
+
+/**
+ * Addresses
+ */
+
+Route::prefix('address')->group(function() {
+
+    Route::get('regions', [AddressesController::class, 'regions']);
+    Route::get('provinces/{code}', [AddressesController::class, 'provinces']);
+    Route::get('cities/{code}', [AddressesController::class, 'cities']);
+    Route::get('barangays/{code}', [AddressesController::class, 'barangays']);
+
 });
+
+
