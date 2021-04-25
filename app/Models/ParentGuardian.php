@@ -5,9 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Enrollment extends Model
+class ParentGuardian extends Model
 {
     use HasFactory;
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'parents_guardians';
 
     /**
      * The attributes that are mass assignable.
@@ -16,22 +23,21 @@ class Enrollment extends Model
      */
     protected $fillable = [
         'student_id',
-        'school_id',
-        'grade',
-        'section',
-        'student_status',
-        'payment_mode',
-        'enrollment_school_year',
-        'enrollment_date',
-        'registered_online',
-        'enrollee_rn',
-        'old_table_pk',
-        'rfid',
-        'schedule_id',
-        'origin',
+        'relationship',
+        'full_name',
+        'guardian_relationship',
+        'last_name',
+        'first_name',
+        'middle_name',
+        'ext_name',
+        'maiden_name',
+        'occupation',
+        'monthly_income',
+        'contact_no',
+        'old_table_pk',        
         'system_log',
-        'update_log',        
-    ];
+        'update_log'        
+    ];    
 
     /**
      * The name of the "created at" column.
@@ -63,6 +69,6 @@ class Enrollment extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
-    }    
+    }
 
 }

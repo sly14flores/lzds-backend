@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Enrollment extends Model
+class FeeItem extends Model
 {
     use HasFactory;
 
@@ -15,20 +15,9 @@ class Enrollment extends Model
      * @var array
      */
     protected $fillable = [
-        'student_id',
-        'school_id',
-        'grade',
-        'section',
-        'student_status',
-        'payment_mode',
-        'enrollment_school_year',
-        'enrollment_date',
-        'registered_online',
-        'enrollee_rn',
-        'old_table_pk',
-        'rfid',
-        'schedule_id',
-        'origin',
+        'fee_id',
+        'level',
+        'amount',
         'system_log',
         'update_log',        
     ];
@@ -64,5 +53,4 @@ class Enrollment extends Model
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }    
-
 }
