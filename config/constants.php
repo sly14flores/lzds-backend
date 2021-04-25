@@ -54,7 +54,7 @@ return [
             'question' => 'What is your average or subscribed internet speed?',
             'type' => 'input',
             'required' => false,            
-        ],              
+        ],
     ]
 
 ];
