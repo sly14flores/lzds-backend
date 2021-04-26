@@ -59,7 +59,7 @@ class FeeItem extends Model
      */
     public function fee()
     {
-        $this->belongsTo(Fee::class);
+        return $this->belongsTo(Fee::class);
     }
 
     /**
@@ -67,6 +67,6 @@ class FeeItem extends Model
      */
     public function level()
     {
-        $this->belongsTo(GradeLevel::class, 'level', 'id');
+        return $this->belongsTo(GradeLevel::class, 'level', 'id');
     }
 }

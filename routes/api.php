@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Api\SelectionsController;
 
+use App\Http\Controllers\Api\StudentController;
+
 /**
  * Addresses
  */
@@ -35,7 +37,24 @@ Route::prefix('address')->group(function() {
 Route::prefix('selections')->group(function() {
 
     Route::get('dialects', [SelectionsController::class, 'dialects']);  
+    Route::get('indigenous/groups', [SelectionsController::class, 'indigenousGroups']);  
 
 });
+
+/**
+ * Students
+ */
+Route::apiResources([
+    'students' => StudentController::class,
+],[
+    'only' => ['index']
+]);
+Route::apiResources([
+    'student' => StudentController::class,
+],[
+    'except' => ['index']
+]);
+Route::post('enroll/online', [StudentController::class, 'enrollOnline']);
+Route::post('query/student', [StudentController::class, 'queryByLRNBday']);
 
 
