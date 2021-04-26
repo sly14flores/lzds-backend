@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Student;
+use App\Models\ParentGuardian;
 use App\Http\Resources\StudentResource;
 
 use App\Traits\Messages;
@@ -68,6 +69,11 @@ class StudentController extends Controller
             'email_address' => ['string','email','max:191'],            
             'indigenous' => 'string', 
             'mother_tongue' => 'string',
+            'relationship' => 'string', // Parent/Guardian
+            'gp_lastname' => 'string',
+            'gp_firstname' => 'string',
+            // 'gp_middlename' => 'string',
+            'gp_contact_no' => 'string',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -82,6 +88,7 @@ class StudentController extends Controller
 
         // return $data;
 
+        // Home address
         $barangay = $this->getBarangay($data['barangay']);
         $city = $this->getCity($data['city']);
         $province = $this->getProvince($data['province']);
@@ -90,8 +97,19 @@ class StudentController extends Controller
 
         $student = new Student;
         $student->fill($data);
-
         $student->save();
+
+        // Parent/Guardian
+        $parent = [
+            'relationship' => $data['relationship'],
+            'last_name' => $data['gp_lastname'],
+            'first_name' => $data['gp_firstname'],
+            'middle_name' => $data['gp_middlename'],
+            'contact_no' => $data['gp_contact_no'],
+        ];
+        $pg = new ParentGuardian;
+        $pg->fill($parent);
+        $student->parents()->save($pg);         
 
         $data = new StudentResource($student);
 
