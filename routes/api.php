@@ -37,6 +37,7 @@ Route::prefix('address')->group(function() {
 Route::prefix('selections')->group(function() {
 
     Route::get('dialects', [SelectionsController::class, 'dialects']);  
+    Route::get('indigenous/groups', [SelectionsController::class, 'indigenousGroups']);  
 
 });
 
