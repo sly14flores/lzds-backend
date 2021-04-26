@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Student extends Model
 {
     use HasFactory;
@@ -19,6 +21,7 @@ class Student extends Model
         'lastname',
         'firstname',
         'middlename',
+        'ext_name',
         'date_of_birth',
         'place_of_birth',
         'gender',
@@ -51,6 +54,7 @@ class Student extends Model
      * @var array
      */
     protected $casts = [
+        'date_of_birth' => 'date',
         'is_active' => 'boolean',
         'gp4ps' => 'boolean',
         'gpips' => 'boolean',
@@ -90,6 +94,11 @@ class Student extends Model
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
 
+    public function getDateOfBirthAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d');
+    }
+
     /**
      * Parent(s) / Guardian
      */
@@ -105,5 +114,5 @@ class Student extends Model
     {
         return $this->hasMany(Enrollment::class);
     }
-    
+
 }

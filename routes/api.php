@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Api\SelectionsController;
 
+use App\Http\Controllers\Api\StudentController;
+
 /**
  * Addresses
  */
@@ -37,5 +39,20 @@ Route::prefix('selections')->group(function() {
     Route::get('dialects', [SelectionsController::class, 'dialects']);  
 
 });
+
+/**
+ * Students
+ */
+Route::apiResources([
+    'students' => StudentController::class,
+],[
+    'only' => ['index']
+]);
+Route::apiResources([
+    'student' => StudentController::class,
+],[
+    'except' => ['index']
+]);
+// Route::get('regions', [AddressesController::class, 'regions']);
 
 
