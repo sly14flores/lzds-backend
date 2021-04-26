@@ -27,7 +27,7 @@ class StudentResource extends JsonResource
             "contact_no" => $this->contact_no,
             "email_address" => $this->email_address,
             "indigenous" => $this->indigenous,
-            "mother_tongue" => $this->mother_tongue,    
+            "mother_tongue" => $this->mother_tongue, 
         ];
     }
 }

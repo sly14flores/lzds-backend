@@ -54,6 +54,7 @@ Route::apiResources([
 ],[
     'except' => ['index']
 ]);
-// Route::get('regions', [AddressesController::class, 'regions']);
+Route::post('enroll/online', [StudentController::class, 'enrollOnline']);
+Route::post('query/student', [StudentController::class, 'queryByLRNBday']);
 
 

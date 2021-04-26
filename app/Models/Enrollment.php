@@ -97,4 +97,12 @@ class Enrollment extends Model
         return $this->belongsTo(SchoolYear::class, 'enrollment_school_year','id');
     }
 
+    /**
+     * Grade/Level
+     */
+    public function level()
+    {
+        return $this->belongsTo(GradeLevel::class, 'grade', 'id');
+    }
+
 }
