@@ -52,5 +52,10 @@ class Section extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
-    }   
+    }
+
+    public function Level()
+    {
+        $this->belongsTo(GradeLevel::class, 'level_id', 'id');
+    }
 }

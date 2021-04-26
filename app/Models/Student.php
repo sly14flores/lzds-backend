@@ -89,5 +89,21 @@ class Student extends Model
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
+
+    /**
+     * Parent(s) / Guardian
+     */
+    public function parents()
+    {
+        return $this->hasMany(ParentGuardian::class);
+    }
+
+    /**
+     * Enrollments
+     */
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
     
 }

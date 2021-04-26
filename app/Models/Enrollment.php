@@ -63,6 +63,38 @@ class Enrollment extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
-    }    
+    }
+
+    /**
+     * Payments
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+    
+    /**
+     * Quetionnaire
+     */
+    public function questionnaire()
+    {
+        return $this->hasOne(Questionnaire::class);
+    }
+    
+    /**
+     * Student
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    /**
+     * School Year
+     */
+    public function school_year()
+    {
+        return $this->belongsTo(SchoolYear::class, 'enrollment_school_year','id');
+    }
 
 }

@@ -51,5 +51,21 @@ class GradeLevel extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
+    }
+
+    /**
+     * Sections
+     */
+    public function Sections()
+    {
+        $this->hasMany(Section::class, 'level_id', 'id');
+    }
+
+    /**
+     * Fee Items
+     */
+    public function FeeItems()
+    {
+        $this->hasMany(FeeItem::class, 'level', 'id');
     }    
 }
