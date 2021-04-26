@@ -9,8 +9,12 @@ use App\Models\GradeLevel;
 use App\Models\Fee;
 use App\Models\FeeItem;
 
+use App\Traits\CommonHelpers;
+
 class StudentOnlineEnrollmentResource extends JsonResource
 {
+    use CommonHelpers;
+
     /**
      * Transform the resource into an array.
      *
@@ -59,14 +63,37 @@ class StudentOnlineEnrollmentResource extends JsonResource
             "next_level" => $next_level->description,
             "fees" => $fees,
             "total_fees" => $total_fees,
+            "down_payment" => $this->getDownPayment($next_level->id)
         ];
     }
 
-    public function currentSy()
+    private function downPayments()
     {
-        $school_year = SchoolYear::where('is_current',true)->first();
+        return collect([
+            ['level'=>1,'amount'=>8500], # Nursery
+            ['level'=>2,'amount'=>8500], # Kinder
+            ['level'=>3,'amount'=>10500], # Grade 1
+            ['level'=>4,'amount'=>10500], # Grade 2
+            ['level'=>5,'amount'=>10500], # Grade 3
+            ['level'=>6,'amount'=>10700], # Grade 4
+            ['level'=>7,'amount'=>10700], # Grade 5
+            ['level'=>8,'amount'=>10700], # Grade 6
+            ['level'=>9,'amount'=>10000], # Grade 7
+            ['level'=>10,'amount'=>10000], # Grade 8
+            ['level'=>11,'amount'=>10000], # Grade 9
+            ['level'=>12,'amount'=>10000], # Grade 10
+            ['level'=>13,'amount'=>10000], # Grade 11
+            ['level'=>14,'amount'=>10000], # Grade 12
+        ]);
+    }
 
-        return $school_year->id;
+    private function getDownPayment($level) {
+
+        $down_payments = $this->downPayments();
+        $down_payment = $down_payments->where('level',$level)->first();
+
+        return $down_payment['amount'];
+
     }
 
 }
