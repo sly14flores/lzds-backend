@@ -201,6 +201,7 @@ class StudentController extends Controller
             'zip_code' => 'string',
             // 'home_address' => 'string', # house no street name subd, barangay, city, province, zip code, 
             'contact_no' => 'string',
+            'student_status' => 'string',
             'email_address' => ['string','email','max:191'],            
             'indigenous' => 'string', 
             'mother_tongue' => 'string',
