@@ -33,4 +33,21 @@ class SchoolYear extends Model
     {
         return $this->is_current == true;
     }
+
+    /**
+     * Enrollments
+     */
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class,'enrollment_school_year','id');
+    }
+
+     /**
+      * Fees
+      */
+    public function fees()
+    {
+        return $this->hasMany(Enrollment::class,'school_year','id');
+    }
+
 }

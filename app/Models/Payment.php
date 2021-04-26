@@ -56,5 +56,13 @@ class Payment extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
-    }    
+    }
+    
+    /**
+     * Enrollment
+     */
+    public function enrollment()
+    {
+        return $this->belongsTo(Enrollment::class);
+    }
 }

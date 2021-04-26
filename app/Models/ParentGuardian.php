@@ -71,4 +71,12 @@ class ParentGuardian extends Model
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
 
+    /**
+     * Student
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }    
+
 }

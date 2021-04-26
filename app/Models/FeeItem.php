@@ -52,5 +52,21 @@ class FeeItem extends Model
     public function getUpdatedAtAttribute()
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
-    }    
+    }
+    
+    /**
+     * Fee
+     */
+    public function fee()
+    {
+        $this->belongsTo(Fee::class);
+    }
+
+    /**
+     * Grade/Level
+     */
+    public function level()
+    {
+        $this->belongsTo(GradeLevel::class, 'level', 'id');
+    }
 }

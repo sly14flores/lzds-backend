@@ -55,4 +55,12 @@ class Questionnaire extends Model
     {
         return unserialize($value);
     }
+
+    /**
+     * Enrollment
+     */
+    public function enrollment()
+    {
+        return $this->belongsTo(Enrollment::class);
+    }    
 }
