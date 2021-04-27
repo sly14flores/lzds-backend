@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Enrollment extends Model
 {
     use HasFactory;
@@ -21,17 +23,29 @@ class Enrollment extends Model
         'section',
         'student_status',
         'payment_mode',
-        'payment_mode',
+        'payment_method',
+        'down_payment',
         'enrollment_school_year',
         'enrollment_date',
         'registered_online',
         'enrollee_rn',
+        'enrollment_uiid',
         'old_table_pk',
         'rfid',
         'schedule_id',
         'origin',
         'system_log',
         'update_log',        
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'registered_online' => 'boolean',
+        'enrollment_date' => 'date',
     ];
 
     /**
@@ -65,6 +79,15 @@ class Enrollment extends Model
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
+
+    /**
+     * @param $value
+     * @return false|string
+     */
+    public function getEnrollmentDateAttribute($value)
+    {
+        return Carbon::parse($value)->format('F j, Y');
+    }    
 
     /**
      * Payments

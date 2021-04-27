@@ -182,7 +182,7 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function enrollOnline(Request $request)
+    public function profileOnline(Request $request)
     {
         $rules = [
             'lrn' => 'string',

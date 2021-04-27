@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Carbon\Carbon;
+
 class Questionnaire extends Model
 {
     use HasFactory;
@@ -51,7 +53,7 @@ class Questionnaire extends Model
         $this->attributes['answers'] = serialize($value);
     }
     
-    public function getAnwersAttribute($value)
+    public function getAnswersAttribute($value)
     {
         return unserialize($value);
     }

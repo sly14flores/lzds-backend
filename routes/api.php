@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Api\SelectionsController;
 
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\EnrollmentController;
 
 /**
  * Addresses
@@ -38,6 +39,9 @@ Route::prefix('selections')->group(function() {
 
     Route::get('dialects', [SelectionsController::class, 'dialects']);  
     Route::get('indigenous/groups', [SelectionsController::class, 'indigenousGroups']);  
+    Route::get('levels', [SelectionsController::class, 'levels']);  
+    Route::get('fees/{level_id}', [SelectionsController::class, 'feesByLevel']);  
+    Route::get('questionnaires', [SelectionsController::class, 'questionnaires']);  
 
 });
 
@@ -54,7 +58,20 @@ Route::apiResources([
 ],[
     'except' => ['index']
 ]);
-Route::post('enroll/online', [StudentController::class, 'enrollOnline']);
-Route::post('query/student', [StudentController::class, 'queryByLRNBday']);
+Route::post('profile/student/online', [StudentController::class, 'profileOnline']);
+Route::post('query/student/online', [StudentController::class, 'queryByLRNBday']);
 
-
+/**
+ * Enrollment
+ */
+Route::apiResources([
+    'enrollments' => EnrollmentController::class,
+],[
+    'only' => ['index']
+]);
+Route::apiResources([
+    'enrollment' => EnrollmentController::class,
+],[
+    'except' => ['index']
+]);
+Route::post('enroll/student/online', [EnrollmentController::class, 'enrollOnline']);
