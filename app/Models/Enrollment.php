@@ -21,6 +21,7 @@ class Enrollment extends Model
         'section',
         'student_status',
         'payment_mode',
+        'payment_mode',
         'enrollment_school_year',
         'enrollment_date',
         'registered_online',

@@ -29,6 +29,7 @@ class Student extends Model
         'contact_no',
         'email_address',
         'student_status',
+        'esc_voucher_grantee',
         'old_school_type',
         'old_school_name',
         'indigenous', 
