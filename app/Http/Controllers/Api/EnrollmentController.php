@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
@@ -148,22 +150,35 @@ class EnrollmentController extends Controller
         $data['enrollee_rn'] = $this->referenceNo($data['grade']);
         $data['origin'] = 'online';
 
-        $enroll = new Enrollment;
-        $enroll->fill($data);
-        $enroll->save();
+        try {
 
-        /**
-         * Questionnaires
-         */
-        $questionnaire = new Questionnaire();
-        $questionnaire->fill([
-            'answers' => $data['questionnaires'],
-        ]);
-        $enroll->questionnaire()->save($questionnaire);
+            DB::beginTransaction();
 
-        $data = new EnrollmentOnlineResource($enroll);
+            $enroll = new Enrollment;
+            $enroll->fill($data);
+            $enroll->save();
 
-        return $this->jsonSuccessResponse($data, 200);
+            /**
+             * Questionnaires
+             */
+            $questionnaire = new Questionnaire();
+            $questionnaire->fill([
+                'answers' => $data['questionnaires'],
+            ]);
+            $enroll->questionnaire()->save($questionnaire);
+
+            $data = new EnrollmentOnlineResource($enroll);
+
+            DB::commit();
+
+            return $this->jsonSuccessResponse($data, 200);
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return $this->jsonFailedResponse(null, $this->http_code_error, $e->getMessage());
+
+        }
 
     }
 

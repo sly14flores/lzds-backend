@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 use App\Models\Student;
 use App\Models\ParentGuardian;
@@ -233,25 +234,38 @@ class StudentController extends Controller
 
         $data['origin'] = 'online';
 
-        $student = new Student;
-        $student->fill($data);
-        $student->save();
+        try {
 
-        // Parent/Guardian
-        $parent = [
-            'relationship' => $data['relationship'],
-            'last_name' => $data['gp_lastname'],
-            'first_name' => $data['gp_firstname'],
-            'middle_name' => $data['gp_middlename'],
-            'contact_no' => $data['gp_contact_no'],
-        ];
-        $pg = new ParentGuardian;
-        $pg->fill($parent);
-        $student->parents()->save($pg);         
+            DB::beginTransaction();
 
-        $data = new StudentResource($student);
+            $student = new Student;
+            $student->fill($data);
+            $student->save();
 
-        return $this->jsonSuccessResponse($data, 200, 'New student successfully added');
+            // Parent/Guardian
+            $parent = [
+                'relationship' => $data['relationship'],
+                'last_name' => $data['gp_lastname'],
+                'first_name' => $data['gp_firstname'],
+                'middle_name' => $data['gp_middlename'],
+                'contact_no' => $data['gp_contact_no'],
+            ];
+            $pg = new ParentGuardian;
+            $pg->fill($parent);
+            $student->parents()->save($pg);         
+
+            $data = new StudentResource($student);
+
+            DB::commit();            
+
+            return $this->jsonSuccessResponse($data, 200, 'New student successfully added');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+            return $this->jsonFailedResponse(null, $this->http_code_error, $e->getMessage());            
+
+        }
     }    
 
     public function queryByLRNBday(Request $request)
