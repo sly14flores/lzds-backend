@@ -229,16 +229,30 @@ class StudentController extends Controller
         $barangay = $this->getBarangay($data['barangay']);
         $city = $this->getCity($data['city']);
         $province = $this->getProvince($data['province']);
-        $home_address = "{$data['house_no']}, {$barangay}, {$city}, {$province}";
+		$home_address = "";
+        if (isset($data['house_no'])) {
+			$home_address = $data['house_no'];
+			$home_address .= ", {$barangay}, {$city}, {$province}";
+        } else {
+			$home_address = "{$barangay}, {$city}, {$province}";
+		}
         $data['home_address'] = $home_address;
-
         $data['origin'] = 'online';
+		unset($data['indigent']);
+		$data['update_log'] = now();
 
         try {
 
             DB::beginTransaction();
+			
+			$check_student = Student::where('lrn',$data['lrn'])->first();
 
-            $student = new Student;
+			if (is_null($check_student)) {
+				$student = new Student;
+			} else {
+				$student = Student::find($check_student->id);
+			}
+
             $student->fill($data);
             $student->save();
 
@@ -247,7 +261,7 @@ class StudentController extends Controller
                 'relationship' => $data['relationship'],
                 'last_name' => $data['gp_lastname'],
                 'first_name' => $data['gp_firstname'],
-                'middle_name' => $data['gp_middlename'],
+                'middle_name' => (isset($data['gp_middlename']))?$data['gp_middlename']:null,
                 'contact_no' => $data['gp_contact_no'],
             ];
             $pg = new ParentGuardian;
@@ -263,7 +277,7 @@ class StudentController extends Controller
         } catch (\Exception $e) {
 
             DB::rollBack();
-            return $this->jsonFailedResponse(null, $this->http_code_error, $e->getMessage());            
+            return $this->jsonFailedResponse(null, $this->http_code_error, "Something went wrong");
 
         }
     }    
