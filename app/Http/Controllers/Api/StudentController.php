@@ -20,7 +20,15 @@ class StudentController extends Controller
     use Messages, AddressHelpers;
 
     private $http_code_ok;
-    private $http_code_error;    
+    private $http_code_error;
+	
+	public function __construct()
+	{
+		
+        $this->http_code_ok = 200;
+        $this->http_code_error = 500;
+
+	}
 
     /**
      * Display a listing of the resource.
@@ -29,8 +37,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $this->http_code_ok = 200;
-        $this->http_code_error = 500;
+		//
     }
 
     /**
@@ -186,7 +193,7 @@ class StudentController extends Controller
     public function profileOnline(Request $request)
     {
         $rules = [
-            'lrn' => 'string',
+            // 'lrn' => 'string',
             'lastname' => 'string',
             'firstname' => 'string',
             'middlename' => 'string',
@@ -277,7 +284,7 @@ class StudentController extends Controller
         } catch (\Exception $e) {
 
             DB::rollBack();
-            return $this->jsonFailedResponse(null, $this->http_code_error, "Something went wrong");
+            return $this->jsonFailedResponse(null, $this->http_code_error, $e->getMessage());
 
         }
     }    

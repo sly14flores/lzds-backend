@@ -23,7 +23,15 @@ class EnrollmentController extends Controller
     use Messages, CommonHelpers;
 
     private $http_code_ok;
-    private $http_code_error;  
+    private $http_code_error;
+	
+	public function __construct()
+	{
+		
+        $this->http_code_ok = 200;
+        $this->http_code_error = 500;
+
+	}	
 
     /**
      * Display a listing of the resource.
@@ -32,8 +40,7 @@ class EnrollmentController extends Controller
      */
     public function index()
     {
-        $this->http_code_ok = 200;
-        $this->http_code_error = 500;
+		//
     }
 
     /**
@@ -163,7 +170,7 @@ class EnrollmentController extends Controller
              */
             $questionnaire = new Questionnaire();
             $questionnaire->fill([
-                'answers' => $data['questionnaires'],
+                'answers' => (isset($data['questionnaires']))?$data['questionnaires']:config('contants.questionnaires'),
             ]);
             $enroll->questionnaire()->save($questionnaire);
 
