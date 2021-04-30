@@ -33,6 +33,7 @@ class Enrollment extends Model
         'old_table_pk',
         'rfid',
         'schedule_id',
+        'esc_voucher_grantee',
         'origin',
         'system_log',
         'update_log',        
@@ -46,6 +47,7 @@ class Enrollment extends Model
     protected $casts = [
         'registered_online' => 'boolean',
         'enrollment_date' => 'date',
+        'esc_voucher_grantee' => 'boolean',
     ];
 
     /**

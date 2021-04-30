@@ -9,6 +9,8 @@ use App\Models\GradeLevel;
 use App\Models\Fee;
 use App\Models\FeeItem;
 
+use Carbon\Carbon;
+
 use App\Traits\CommonHelpers;
 
 class StudentOnlineEnrollmentResource extends JsonResource
@@ -24,22 +26,22 @@ class StudentOnlineEnrollmentResource extends JsonResource
     public function toArray($request)
     {
         $recent_enrollment = $this->enrollments()->orderByDesc('system_log')->first();
-        $recent_level = $recent_enrollment->level;
 
-        $recent_level_id = $recent_level->id;
-        $next_level = GradeLevel::find($recent_level_id+1);
-        $next_level_id = $next_level->id;
+        if (is_null($recent_enrollment)) { // Nursery
+            $recent_level_id = null;
+            $recent_level_description = null;
+            $next_level_id = null;
+            $next_level_description = null;
+        } else {
+            $recent_level = $recent_enrollment->level;            
+            $recent_level_id = $recent_level->id;
+            $recent_level_description = $recent_level->description;
+            $next_level = GradeLevel::find($recent_level_id+1);
+            $next_level_id = $next_level->id;
+            $next_level_description = $next_level->description;            
+        }
 
-        // $current_sy = $this->currentSy();
-
-        // $fees = Fee::where('school_year',$current_sy)->get();
-        // $fees = $fees->map(function($fee) use ($next_level_id) {
-        //     $item = FeeItem::where([['fee_id',$fee->id],['level',$next_level_id]])->first();
-        //     $fee->amount = $item->amount;
-        //     return $fee;
-        // });
-
-        // $total_fees = collect($fees)->sum('amount');
+        $discounts = [1,2];
 
         return [
             "id" => $this->id,
@@ -51,21 +53,29 @@ class StudentOnlineEnrollmentResource extends JsonResource
             "date_of_birth" => $this->date_of_birth,
             "gender" => $this->gender,
             "home_address" => $this->home_address,
+			"region" => $this->region,
+			"province" => $this->province,
+			"city" => $this->city,
+			"barangay" => $this->barangay,
             "contact_no" => $this->contact_no,
             "student_status" => $this->student_status,
             "email_address" => $this->email_address,
             "indigenous" => $this->indigenous,
             "mother_tongue" => $this->mother_tongue,
-            // "enrollments" => $enrollments,
-            // "recent_enrollment" => $recent_enrollment,
-            // "recent_level" => $recent_level,
-            'previous_level_id' => $recent_level->id,
-            'previous_level' => $recent_level->description,
-            "next_level_id" => $next_level->id,
-            "next_level" => $next_level->description,
-            // "fees" => $fees,
-            // "total_fees" => $total_fees,
-            // "down_payment" => $this->getDownPayment($next_level->id)
+            "house_no" => $this->house_no,
+            "zip_code" => $this->zip_code,
+			"relationship" => $this->parents()->first()->relationship,
+			"gp_firstname" => $this->parents()->first()->first_name,
+			"gp_middlename" => $this->parents()->first()->middle_name,
+			"gp_lastname" => $this->parents()->first()->last_name,
+			"gp_contact_no" => $this->parents()->first()->contact_no,
+			"updated_dt" => Carbon::parse($this->update_log)->format('Y-m-d H:i:s'),
+			"indigent" => (is_null($this->indigenous))?false:true,
+            'previous_level_id' => $recent_level_id,
+            'previous_level' => $recent_level_description,
+            "next_level_id" => $next_level_id,
+            "next_level" => $next_level_description,
+            "discounts" => $discounts,
         ];
     }
 

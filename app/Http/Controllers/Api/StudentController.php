@@ -275,9 +275,9 @@ class StudentController extends Controller
             $pg->fill($parent);
             $student->parents()->save($pg);         
 
-            $data = new StudentResource($student);
+            $data = new StudentOnlineEnrollmentResource($student);
 
-            DB::commit();            
+            DB::commit();        
 
             return $this->jsonSuccessResponse($data, 200, 'New student successfully added');
 
