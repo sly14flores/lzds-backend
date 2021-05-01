@@ -131,8 +131,10 @@ class EnrollmentController extends Controller
             'student_status' => 'string',
             'payment_mode' => 'string',
             'payment_method' => 'string',
-            'down_payment' => 'integer',
-            'questionnaires' => 'array',
+            // 'down_payment' => 'integer',
+            // 'questionnaires' => 'array',
+            'esc_voucher_grantee' => 'boolean',
+            // 'discount_amount' => 'float'
             // 'enrollment_school_year',
             // 'enrollment_date',
             // 'registered_online',
@@ -143,7 +145,7 @@ class EnrollmentController extends Controller
         $validator = Validator::make($request->all(), $rules);
         
         if ($validator->fails()) {
-            // return $validator->errors();
+            return $validator->errors();
             return $this->jsonErrorDataValidation();
         }
         
@@ -156,26 +158,39 @@ class EnrollmentController extends Controller
         $data['enrollment_uiid'] = Str::random(20);
         $data['enrollee_rn'] = $this->referenceNo($data['grade']);
         $data['origin'] = 'online';
+        if (is_null($data['student_status'])) $data['student_status'] = "Regular";
 
         try {
 
             DB::beginTransaction();
 
-            $enroll = new Enrollment;
-            $enroll->fill($data);
-            $enroll->save();
+            $check_enrollment = Enrollment::where([['enrollment_school_year',$this->currentSy()],['student_id',$data['student_id']]])->first();
+
+            if (is_null($check_enrollment)) {
+
+                $enroll = new Enrollment;
+                $enroll->fill($data);
+                $enroll->save();
+
+            } else {
+
+                $data = new EnrollmentOnlineResource($check_enrollment);
+                DB::commit();
+    
+                return $this->jsonSuccessResponse($data, 406, 'You are already enrolled in this school year');                
+
+            }
 
             /**
              * Questionnaires
              */
-            $questionnaire = new Questionnaire();
-            $questionnaire->fill([
-                'answers' => (isset($data['questionnaires']))?$data['questionnaires']:config('contants.questionnaires'),
-            ]);
-            $enroll->questionnaire()->save($questionnaire);
+            // $questionnaire = new Questionnaire();
+            // $questionnaire->fill([
+            //     'answers' => (isset($data['questionnaires']))?$data['questionnaires']:config('contants.questionnaires'),
+            // ]);
+            // $enroll->questionnaire()->save($questionnaire);
 
             $data = new EnrollmentOnlineResource($enroll);
-
             DB::commit();
 
             return $this->jsonSuccessResponse($data, 200);

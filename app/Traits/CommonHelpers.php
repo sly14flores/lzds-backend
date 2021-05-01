@@ -78,7 +78,7 @@ trait CommonHelpers {
 
         $discount = $discounts->where('id',$id)->first();
 
-        return $discount['percentage'];
+        return $discount;
 
     }
 
