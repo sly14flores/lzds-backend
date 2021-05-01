@@ -229,6 +229,7 @@ class StudentController extends Controller
 
         /** Get validated data */
         $data = $validator->valid();
+        unset($data['total_discounts_percentage']);
 
         // return $data;
 

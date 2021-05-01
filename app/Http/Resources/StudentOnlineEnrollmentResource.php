@@ -47,8 +47,8 @@ class StudentOnlineEnrollmentResource extends JsonResource
         
         $discount_percentage = 0;
         $discounts = [];
+        $total_discounts_percentage = 0;        
         if (!is_null($next_level_id)) {
-            $total_discounts_percentage = 0;
             $total_percentage = 0;
             if ($enrollment_discount>0) {
                 $get_discount = $this->getDiscount($enrollment_discount);
