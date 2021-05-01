@@ -27,21 +27,49 @@ class StudentOnlineEnrollmentResource extends JsonResource
     {
         $recent_enrollment = $this->enrollments()->orderByDesc('system_log')->first();
 
-        if (is_null($recent_enrollment)) { // Nursery
-            $recent_level_id = null;
-            $recent_level_description = null;
-            $next_level_id = null;
-            $next_level_description = null;
-        } else {
+        // Nursery
+        $recent_level_id = null;
+        $recent_level_description = null;
+        $next_level_id = null;
+        $next_level_description = null;
+
+        if (!is_null($recent_enrollment)) {
             $recent_level = $recent_enrollment->level;            
             $recent_level_id = $recent_level->id;
             $recent_level_description = $recent_level->description;
             $next_level = GradeLevel::find($recent_level_id+1);
             $next_level_id = $next_level->id;
-            $next_level_description = $next_level->description;            
+            $next_level_description = $next_level->description;  
         }
 
-        $discounts = [1,2];
+        $enrollment_discount = (is_null($this->enrollment_discount))?0:$this->enrollment_discount;
+        $additional_enrollment_discount = (is_null($this->additional_enrollment_discount))?0:$this->additional_enrollment_discount;
+        
+        $discount_percentage = 0;
+        $discounts = [];
+        if (!is_null($next_level_id)) {
+            $total_discounts_percentage = 0;
+            $total_percentage = 0;
+            if ($enrollment_discount>0) {
+                $get_discount = $this->getDiscount($enrollment_discount);
+                $percentage = $get_discount['percentage'];
+                $_percentage = $percentage*100;
+                $total_percentage += $_percentage;
+                $discounts[] = "{$get_discount['name']} ({$_percentage}%)";
+                $total_discounts_percentage += $percentage;
+            }
+            if ($additional_enrollment_discount>0) {
+                $get_discount = $this->getDiscount($additional_enrollment_discount);
+                $percentage = $get_discount['percentage'];
+                $_percentage = $percentage*100;
+                $total_percentage += $_percentage;
+                $discounts[] = "{$get_discount['name']} ({$_percentage}%)";
+                $total_discounts_percentage += $percentage;
+            }
+            if (count($discounts)>1) {
+                $discounts[] = "Total discounts: {$total_percentage}%";
+            }
+        }
 
         return [
             "id" => $this->id,
@@ -76,6 +104,7 @@ class StudentOnlineEnrollmentResource extends JsonResource
             "next_level_id" => $next_level_id,
             "next_level" => $next_level_description,
             "discounts" => $discounts,
+            "total_discounts_percentage" => $total_discounts_percentage,
         ];
     }
 

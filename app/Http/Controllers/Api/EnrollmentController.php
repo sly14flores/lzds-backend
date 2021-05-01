@@ -133,6 +133,8 @@ class EnrollmentController extends Controller
             'payment_method' => 'string',
             'down_payment' => 'integer',
             'questionnaires' => 'array',
+            'esc_voucher_grantee' => 'boolean',
+            // 'discount_amount' => 'float'
             // 'enrollment_school_year',
             // 'enrollment_date',
             // 'registered_online',
