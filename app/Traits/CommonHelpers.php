@@ -60,4 +60,26 @@ trait CommonHelpers {
 
     }
 
+    private function discounts() {
+
+        return collect([
+            ['id' => 1, 'name' => 'w/Highest Honors', 'percentage' => .5],
+            ['id' => 2, 'name' => 'w/High Honors', 'percentage' => .25],
+            ['id' => 3, 'name' => 'w/Honors', 'percentage' => .10],
+            ['id' => 4, 'name' => '3 Siblings: Youngest', 'percentage' => .10],
+            ['id' => 5, 'name' => '4 - 5 Siblings: Youngest', 'percentage' => 1],       
+        ]);
+
+    }
+
+    private function getDiscount($id) {
+
+        $discounts = $this->discounts();
+
+        $discount = $discounts->where('id',$id)->first();
+
+        return $discount['percentage'];
+
+    }
+
 }
