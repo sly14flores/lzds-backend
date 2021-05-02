@@ -38,6 +38,9 @@ class Enrollment extends Model
         'discount_amount',
         'discount_percentage',
         'total_amount_to_pay',
+        'gcash_refno',
+        'paypal_refno',
+        'payment_confirmed',
         'origin',
         'system_log',
         'update_log',        
@@ -52,6 +55,7 @@ class Enrollment extends Model
         'registered_online' => 'boolean',
         'enrollment_date' => 'date',
         'esc_voucher_grantee' => 'boolean',
+        'payment_confirmed' => 'boolean'
     ];
 
     /**

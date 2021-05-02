@@ -28,7 +28,8 @@ class EnrollmentOnlineResource extends JsonResource
             "enrollment_uiid" => $this->enrollment_uiid,
             "enrollee_rn" => $this->enrollee_rn,
             "origin" => $this->origin,
-            "answers" => $this->questionnaire
+            "total_amount_to_pay" => $this->total_amount_to_pay,
+            // "answers" => $this->questionnaire
         ];
     }
 }
