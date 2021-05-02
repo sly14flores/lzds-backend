@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use App\Models\Student;
 use App\Models\Enrollment;
 use App\Models\Questionnaire;
 use App\Http\Resources\EnrollmentResource;
@@ -180,6 +181,13 @@ class EnrollmentController extends Controller
                 return $this->jsonSuccessResponse($data, 406, 'You are already enrolled in this school year');                
 
             }
+
+            /**
+             * Update email
+             */
+            $student = Student::find($data['student_id']);
+            $student->email_address = $data['email_address'];
+            $student->save();
 
             /**
              * Questionnaires
