@@ -75,3 +75,6 @@ Route::apiResources([
     'except' => ['index']
 ]);
 Route::post('enroll/student/online', [EnrollmentController::class, 'enrollOnline']);
+Route::get('payment/info/{uuid}', [EnrollmentController::class, 'paymentInfo']);
+Route::put('payment/gcash/{uuid}', [EnrollmentController::class, 'updateGcash']);
+Route::put('payment/paypal/{uuid}', [EnrollmentController::class, 'updatePaypal']);

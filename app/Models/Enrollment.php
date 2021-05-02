@@ -38,6 +38,8 @@ class Enrollment extends Model
         'discount_amount',
         'discount_percentage',
         'total_amount_to_pay',
+        'gcash_refno',
+        'paypal_refno',
         'payment_confirmed',
         'origin',
         'system_log',

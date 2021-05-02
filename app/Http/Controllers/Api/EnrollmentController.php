@@ -146,7 +146,7 @@ class EnrollmentController extends Controller
         $validator = Validator::make($request->all(), $rules);
         
         if ($validator->fails()) {
-            return $validator->errors();
+            // return $validator->errors();
             return $this->jsonErrorDataValidation();
         }
         
@@ -232,5 +232,81 @@ class EnrollmentController extends Controller
 
         return $refno;
     }
+
+    public function paymentInfo($uuid) {
+
+        $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();
+
+        if (is_null($enrollment)) {
+			return $this->jsonErrorResourceNotFound();
+        }
+
+        /**
+         * Email payment intructions
+         */
+
+        $data = new EnrollmentOnlineResource($enrollment);
+
+        return $this->jsonSuccessResponse($data, 200);
+
+    }
+
+    public function updateGcash(Request $request, $uuid) {
+
+        $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();
+
+        if (is_null($enrollment)) {
+			return $this->jsonErrorResourceNotFound();
+        }
+
+        $rules = [
+            'gcash_refno' => 'string'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            // return $validator->errors();
+            return $this->jsonErrorDataValidation();
+        }
+        
+        /** Get validated data */
+        $data = $validator->valid();
+        
+        $enrollment->fill($data);
+        $enrollment->save();
+
+        return $this->jsonSuccessResponse(null, 200, 'Gcash reference number submitted');
+
+    }
+
+    public function updatePaypal(Request $request, $uuid) {
+
+        $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();
+
+        if (is_null($enrollment)) {
+			return $this->jsonErrorResourceNotFound();
+        }
+
+        $rules = [
+            'paypal_refno' => 'string'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+        
+        if ($validator->fails()) {
+            // return $validator->errors();
+            return $this->jsonErrorDataValidation();
+        }
+        
+        /** Get validated data */
+        $data = $validator->valid();        
+        
+        $enrollment->fill($data);
+        $enrollment->save();
+
+        return $this->jsonSuccessResponse(null, 200, 'Paypal reference number submitted');
+
+    }    
 
 }
