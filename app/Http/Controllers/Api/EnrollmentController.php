@@ -178,7 +178,7 @@ class EnrollmentController extends Controller
                 $data = new EnrollmentOnlineResource($check_enrollment);
                 DB::commit();
     
-                return $this->jsonSuccessResponse($data, 406, 'You are already enrolled in this school year');                
+                return $this->jsonSuccessResponse($data, 406, 'You are already enrolled in this school year');
 
             }
 
