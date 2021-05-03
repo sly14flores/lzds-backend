@@ -13,6 +13,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+use App\Notifications\EnrollmentNotification;
+use Illuminate\Support\Facades\Notification;
+
+use App\Models\Student;
+
+Route::get('/preview/mail', function () {
+
+    $student = Student::find(840);
+
+    return (new EnrollmentNotification(['name'=>'Sly Flores']))
+                ->toMail($student);
+
+});
+
+Route::get('/test/mail', function () {
+
+    $student = Student::find(840);
+
+    $student->notify(new EnrollmentNotification(['name'=>'Sly Flores']));
+
 });
