@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Notifications\Notifiable;
+
 use Carbon\Carbon;
 
 class Student extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -54,6 +56,21 @@ class Student extends Model
         'system_log',
         'update_log'
     ];
+
+    /**
+     * Route notifications for the mail channel.
+     *
+     * @param  \Illuminate\Notifications\Notification  $notification
+     * @return array|string
+     */
+    public function routeNotificationForMail($notification)
+    {
+        // Return email address only...
+        return $this->email_address;
+
+        // Return email address and name...
+        // return [$this->email_address => $this->name];
+    } 
 
     /**
      * The attributes that should be cast to native types.
