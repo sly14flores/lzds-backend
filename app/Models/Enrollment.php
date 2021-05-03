@@ -139,4 +139,14 @@ class Enrollment extends Model
         return $this->belongsTo(GradeLevel::class, 'grade', 'id');
     }
 
+    public function enrollment_fees()
+    {
+        return $this->hasMany(StudentsFee::class, 'enrollment_id', 'id');
+    }
+
+    public function student_discount()
+    {
+        return $this->hasOne(StudentsDiscount::class, 'enrollment_id', 'id');
+    }    
+
 }

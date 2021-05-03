@@ -13,6 +13,8 @@ use Carbon\Carbon;
 use App\Models\Student;
 use App\Models\Enrollment;
 use App\Models\Questionnaire;
+use App\Models\StudentsFee;
+use App\Models\StudentsDiscount;
 use App\Http\Resources\EnrollmentResource;
 use App\Http\Resources\EnrollmentOnlineResource;
 
@@ -143,6 +145,7 @@ class EnrollmentController extends Controller
             // 'registered_online',
             // 'enrollee_rn',
             // 'enrollment_uiid',
+            'student_fees' => 'array'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -183,6 +186,24 @@ class EnrollmentController extends Controller
                 return $this->jsonSuccessResponse($data, 406, 'You are already enrolled in this school year');
 
             }
+
+            /**
+             * Student Fees
+             */
+            foreach ($data['student_fees'] as $sf) {
+                $student_fee = new StudentsFee;
+                $student_fee->fill([
+                    'fee_item_id' => $sf['fee_item_id'],
+                    'amount' => $sf['amount'],
+                ]);
+                $enroll->enrollment_fees()->save($student_fee);
+            }
+            /**
+             * Student Discount
+             */
+            $student_discount = new StudentsDiscount;
+            $student_discount->amount = $data['discount_amount'];
+            $enroll->student_discount()->save($student_discount);
 
             /**
              * Update email
