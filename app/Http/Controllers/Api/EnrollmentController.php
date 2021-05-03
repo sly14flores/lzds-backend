@@ -16,6 +16,8 @@ use App\Models\Questionnaire;
 use App\Http\Resources\EnrollmentResource;
 use App\Http\Resources\EnrollmentOnlineResource;
 
+use App\Notifications\EnrollmentNotification;
+
 use App\Traits\Messages;
 use App\Traits\CommonHelpers;
 
@@ -188,6 +190,35 @@ class EnrollmentController extends Controller
             $student = Student::find($data['student_id']);
             $student->email_address = $data['email_address'];
             $student->save();
+
+            /**
+             * Email
+             */
+            $payment_methods = [
+                'cash' => 'Cash',
+                'bank_deposit' => 'Bank Deposit',
+                'gcash' => 'Gcash',
+                'paypal' => 'Paypal',
+            ];
+            $urls = [             
+                'cash' => '/payment/cash/',
+                'bank_deposit' => '/payment/bank/',
+                'gcash' => '/payment/gcash/',
+                'paypal' => '/payment/paypal/',
+            ];
+
+            $parent = $student->parents()->first();
+            $email = [
+                'parent' => "{$parent->first_name} {$parent->last_name}",
+                'student' => "{$student->firstname} {$student->lastname}",
+                'grade' => $enroll->level->description,
+                'enrollee_rn' => $enroll->enrollee_rn,
+                'payment_method' => $payment_methods[$enroll->payment_method],
+                'amount_to_pay' => number_format($enroll->total_amount_to_pay,2),
+                'url' => env('FRONTEND_URL').$urls[$enroll->payment_method].$enroll->enrollment_uiid,
+            ];
+
+            $student->notify(new EnrollmentNotification($email));
 
             /**
              * Questionnaires
