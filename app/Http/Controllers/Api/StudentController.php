@@ -253,13 +253,16 @@ class StudentController extends Controller
 
             DB::beginTransaction();
 			
-			$check_student = Student::where('lrn',$data['lrn'])->first();
-
-			if (is_null($check_student)) {
-				$student = new Student;
-			} else {
-				$student = Student::find($check_student->id);
-			}
+			if ($data['student_status']=="Transferee") {
+                $check_student = Student::where('lrn',$data['lrn'])->first();
+                if (is_null($check_student)) {
+                    $student = new Student;
+                } else {
+                    $student = Student::find($check_student->id);
+                }                
+            } else {
+                $student = new Student;
+            }
 
             $student->fill($data);
             $student->save();
