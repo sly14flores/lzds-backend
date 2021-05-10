@@ -46,13 +46,7 @@ class SelectionsController extends Controller
 
         $fees = Fee::where('school_year',$current_sy)->get();
         $tuition_fee = 0;
-        // $fees = $fees->map(function($fee, $i) use ($level_id, $tuition_fee) {
-        //     $item = FeeItem::where([['fee_id',$fee->id],['level',$level_id]])->first();
-        //     $fee->amount = $item->amount;
-        //     $fee->no = $i+1;
-        //     if ($fee->category == 'Tuition Fees') $tuition_fee = $item->amount;
-        //     return $fee;
-        // });
+
         foreach ($fees as $i => $fee) {
             $item = FeeItem::where([['fee_id',$fee->id],['level',$level_id]])->first();
             $fees[$i]['amount'] = $item->amount;
