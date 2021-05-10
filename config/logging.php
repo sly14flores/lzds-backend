@@ -37,7 +37,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single','slack'],
             'ignore_exceptions' => false,
         ],
 
@@ -54,12 +54,13 @@ return [
             'days' => 14,
         ],
 
-        'slack' => [
+        'enrollment' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
-            'username' => 'Laravel Log',
+            'username' => 'enroll.lzds.edu.ph',
             'emoji' => ':boom:',
             'level' => env('LOG_LEVEL', 'critical'),
+            'channel' => env('LOG_SLACK_ENROLLMENT_CHANNEL'),
         ],
 
         'papertrail' => [
