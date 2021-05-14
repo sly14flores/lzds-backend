@@ -244,14 +244,16 @@ class EnrollmentController extends Controller
             /**
              * Notify slack channel
              */
-            Log::channel('enrollment')->info('New Enrollment', [
-                'Student' => $email['student'],
-                'Grade/Level' => $email['grade'],
-                'LRN' => $email['enrollee_rn'],
-                'Reference Number' => $enroll['enrollee_rn'],
-                'Payment Method' => $email['payment_method'],
-                'Amount to Pay' => $email['amount_to_pay'],
-            ]);
+            if (env('ENABLE_SLACK_NOTIFICATION')) {
+                Log::channel('enrollment')->info('New Enrollment', [
+                    'Student' => $email['student'],
+                    'Grade/Level' => $email['grade'],
+                    'LRN' => $email['enrollee_rn'],
+                    'Reference Number' => $enroll['enrollee_rn'],
+                    'Payment Method' => $email['payment_method'],
+                    'Amount to Pay' => $email['amount_to_pay'],
+                ]);
+            }
 
             $student->notify(new EnrollmentNotification($email));
 
