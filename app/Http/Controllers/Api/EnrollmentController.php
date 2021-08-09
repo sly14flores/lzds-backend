@@ -72,8 +72,10 @@ class EnrollmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
+     * @group Enrollments
+     * 
+     * Get Enrollment
+     * 
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -128,6 +130,11 @@ class EnrollmentController extends Controller
         //
     }
 
+    /**
+     * @group Enrollments->Online
+     * 
+     * Enroll Student
+     */
     public function enrollOnline(Request $request)
     {
         $rules = [
@@ -301,6 +308,11 @@ class EnrollmentController extends Controller
         return $refno;
     }
 
+    /**
+     * @group Enrollments->Online
+     * 
+     * Payment Info
+     */
     public function paymentInfo($uuid) {
 
         $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();
@@ -319,6 +331,11 @@ class EnrollmentController extends Controller
 
     }
 
+    /**
+     * @group Enrollments->Online
+     * 
+     * Update gcash reference number
+     */
     public function updateGcash(Request $request, $uuid) {
 
         $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();
@@ -348,6 +365,11 @@ class EnrollmentController extends Controller
 
     }
 
+    /**
+     * @group Enrollments->Online
+     * 
+     * Update paypal reference number
+     */
     public function updatePaypal(Request $request, $uuid) {
 
         $enrollment = Enrollment::where('enrollment_uiid',$uuid)->first();

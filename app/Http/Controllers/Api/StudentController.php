@@ -132,7 +132,9 @@ class StudentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @group Students
+     * 
+     * Get Student
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -189,7 +191,7 @@ class StudentController extends Controller
     }
 
     /**
-     * @group Online->Enrollment
+     * @group Enrollments->Online
      * 
      * New Student
      * 
@@ -302,7 +304,7 @@ class StudentController extends Controller
     }    
 
     /**
-     * @group Online->Enrollment
+     * @group Enrollments->Online
      * 
      * Query Student
      */
