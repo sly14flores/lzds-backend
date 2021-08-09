@@ -51,7 +51,11 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @group Students
+     * 
+     * New Student
+     * 
+     * Create new student
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -185,7 +189,11 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @group Online->Enrollment
+     * 
+     * New Student
+     * 
+     * Create online profile online
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -293,6 +301,11 @@ class StudentController extends Controller
         }
     }    
 
+    /**
+     * @group Online->Enrollment
+     * 
+     * Query Student
+     */
     public function queryByLRNBday(Request $request)
     {
         $rules = [
