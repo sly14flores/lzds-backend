@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Api\SelectionsController;
 
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\EnrollmentController;
 
@@ -78,3 +79,13 @@ Route::post('enroll/student/online', [EnrollmentController::class, 'enrollOnline
 Route::get('payment/info/{uuid}', [EnrollmentController::class, 'paymentInfo']);
 Route::put('payment/gcash/{uuid}', [EnrollmentController::class, 'updateGcash']);
 Route::put('payment/paypal/{uuid}', [EnrollmentController::class, 'updatePaypal']);
+
+/**
+ * Logins
+ */
+Route::prefix('login')->group(function() {
+
+    Route::post('student', [LoginController::class, 'student']);
+    Route::post('staff', [LoginController::class, 'staff']);
+
+});

@@ -3,12 +3,12 @@
 namespace App\Customs;
 
 use App\Models\User;
-use App\Models\Student;
+use App\Models\Staff;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Database\QueryException;
 
-trait ManageStudents
+trait ManageStaffs
 {
 	public function start() {
 
@@ -47,9 +47,8 @@ trait ManageStudents
 
 			$user = new User;
 
-			$user->student_id = $details['student_id'];
-			$user->lrn = $details['lrn'];
-			// $user->email = $details['email'];
+			$user->staff_id = $details['staff_id'];
+			$user->email = $details['email'];
 			// $user->is_super_admin = $details['is_super_admin'];
 			$user->password = $details['password'];
 			// $user->email_verified_at = now();
@@ -94,7 +93,7 @@ trait ManageStudents
     private function getDetails() : array
     {
 
-        $id = $this->ask('Student id (primary)');
+        $id = $this->ask('Staff id (primary)');
 
         $details['password'] = $this->secret('Password');
         $details['confirm_password'] = $this->secret('Confirm password');
@@ -114,49 +113,49 @@ trait ManageStudents
 
 		$details['password'] = Hash::make($details['password']);
 
-        $student = Student::find($id);
+        $staff = Staff::find($id);
 
-        if (is_null($student)) {
-            $this->info("No student found for id {$id}");
+        if (is_null($staff)) {
+            $this->info("No staff found for id {$id}");
             $this->start();
         }
 
-        $details['student_id'] = $id;
-        $details['lrn'] = $student['lrn'];
+        $details['staff_id'] = $id;
+        $details['email'] = $staff['email'];
 
         return $details;
 	}
 
     private function displayUser(User $user) : void
     {
-        $headers = ['Id','StudentID','LRN'];
+        $headers = ['Id','StaffID','Email'];
 
         $fields = [
 			'Id' => $user->id,
-            'StudentID' => $user->student_id,
-            'LRN' => $user->lrn,
+            'StaffID' => $user->staff_id,
+            'Email' => $user->email,
         ];
 
-        $this->info('Student Login created');
+        $this->info('Staff Login created');
         $this->table($headers, [$fields]);
 	}
 	
     private function displayUsers() : void
     {
-        $headers = ['Id','StudentID','LRN'];
+        $headers = ['Id','StaffID','Email'];
 
-		$users = User::whereNotNull('student_id')->get();
+		$users = User::whereNotNull('staff_id')->get();
 
 		$rows = [];
 		foreach ($users as $user) {
 			$rows[] = [
 				'Id' => $user->id,
-                'StudentID' => $user->student_id,
-                'LRN' => $user->lrn,            
+                'StaffID' => $user->staff_id,
+                'Email' => $user->email,            
 			];
 		}
 
-        $this->info('Students Logins');
+        $this->info('Staffs Logins');
         $this->table($headers, $rows);
     }	
 
