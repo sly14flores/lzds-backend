@@ -12,13 +12,14 @@ use App\Models\Student;
 use App\Models\Staff;
 
 use App\Traits\Messages;
+use App\Traits\StudentDefaultPassword;
 
 use App\Http\Resources\StudentLoginResource;
 use App\Http\Resources\StaffLoginResource;
 
 class LoginController extends Controller
 {
-    use Messages;
+    use Messages, StudentDefaultPassword;
 
     public function __construct()
     {
@@ -61,6 +62,7 @@ class LoginController extends Controller
 
         $student = Student::find($student_id);
         $student->token = $token->accessToken;
+        $student->default_password = $this->isPasswordDefault($student_id,$user->password);
 
         $data = new StudentLoginResource($student);
 

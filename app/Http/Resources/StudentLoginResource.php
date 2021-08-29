@@ -18,12 +18,12 @@ class StudentLoginResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
             'id' => $this->id,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'token' => $this->token,
+            'default_password' => $this->default_password,
         ];
     }
 }
