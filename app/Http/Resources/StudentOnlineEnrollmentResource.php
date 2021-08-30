@@ -38,8 +38,10 @@ class StudentOnlineEnrollmentResource extends JsonResource
             $recent_level_id = $recent_level->id;
             $recent_level_description = $recent_level->description;
             $next_level = GradeLevel::find($recent_level_id+1);
-            $next_level_id = $next_level->id;
-            $next_level_description = $next_level->description;  
+            if (!is_null($next_level)) {
+                $next_level_id = $next_level->id;
+                $next_level_description = $next_level->description;
+            }
         }
 
         $enrollment_discount = (is_null($this->enrollment_discount))?0:$this->enrollment_discount;
