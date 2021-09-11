@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\SelectionsController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\EnrollmentController;
+use App\Http\Controllers\Api\DefaultPasswords;
 
 /**
  * Addresses
@@ -87,5 +88,14 @@ Route::prefix('login')->group(function() {
 
     Route::post('student', [LoginController::class, 'student']);
     Route::post('staff', [LoginController::class, 'staff']);
+
+});
+
+/**
+ * Default Passwords
+ */
+Route::prefix('update/password')->group(function() {
+
+    Route::put('student', [DefaultPasswords::class, 'student']);
 
 });
