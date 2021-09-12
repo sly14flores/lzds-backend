@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Request;
 
 class Handler extends ExceptionHandler
 {
+    use Messages;
+
     /**
      * A list of the exception types that are not reported.
      *

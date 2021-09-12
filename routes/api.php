@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\StudentController;
 use App\Http\Controllers\Api\EnrollmentController;
 use App\Http\Controllers\Api\DefaultPasswords;
+use App\Http\Controllers\Api\Students\PortalController;
 
 /**
  * Addresses
@@ -88,14 +89,27 @@ Route::prefix('login')->group(function() {
 
     Route::post('student', [LoginController::class, 'student']);
     Route::post('staff', [LoginController::class, 'staff']);
-
+    
 });
 
 /**
  * Default Passwords
  */
 Route::prefix('update/password')->group(function() {
-
+    
     Route::put('student', [DefaultPasswords::class, 'student']);
+    
+});
+
+/**
+ * Students Portal
+ */
+Route::prefix('portal')->group(function() {
+
+    Route::prefix('student')->group(function() {
+
+        Route::get('profile', [PortalController::class, 'profile']);
+
+    });
 
 });
