@@ -147,6 +147,11 @@ class Enrollment extends Model
     public function student_discount()
     {
         return $this->hasOne(StudentsDiscount::class, 'enrollment_id', 'id');
-    }    
+    }
+
+    public function dtr()
+    {
+        return $this->hasMany(DtrStudent::class, 'rfid', 'rfid');
+    }
 
 }

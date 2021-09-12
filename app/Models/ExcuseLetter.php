@@ -61,5 +61,10 @@ class ExcuseLetter extends Model
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
+
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
         
 }

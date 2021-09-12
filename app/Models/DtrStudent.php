@@ -14,7 +14,7 @@ class DtrStudent extends Model
      *
      * @var string
      */
-    protected $table = 'excuse_letters';    
+    protected $table = 'dtr_students';
 
     /**
      * The attributes that are mass assignable.
@@ -49,6 +49,11 @@ class DtrStudent extends Model
     public function getCreatedAtAttribute()
     {
         return Carbon::parse($this->attributes['system_log'])->format('F j, Y h:i A');
+    }
+
+    public function enrollment()
+    {
+        return $this->belongsTo(Student::class, 'rfid', 'rfid');
     }
 
 }
