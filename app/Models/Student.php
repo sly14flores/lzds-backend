@@ -139,4 +139,20 @@ class Student extends Model
         return $this->hasMany(Enrollment::class);
     }
 
+    /**
+     * Records
+     */
+    public function records()
+    {
+        return $this->hasMany(StudentRecord::class);
+    }
+
+    /**
+     * Excuse Letters
+     */
+    public function excuseLetters()
+    {
+        return $this->hasMany(ExcuseLetter::class);
+    }
+
 }

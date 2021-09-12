@@ -5,16 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class StudentRecord extends Model
+class StudentVoucher extends Model
 {
     use HasFactory;
 
-    /**
-     * The table associated with the model.
-     *
-     * @var string
-     */
-    protected $table = 'students_records';
+    protected $table = 'students_vouchers';
 
     /**
      * The attributes that are mass assignable.
@@ -22,13 +17,10 @@ class StudentRecord extends Model
      * @var array
      */
     protected $fillable = [
-      'student_id',
-      'record_sy',
-      'record_description',
-      'record_subject',
-      'record_text',
-      'system_log',
-      'update_log',
+        'enrollment_id',
+        'amount',
+        'system_log',
+        'update_log'
     ];
 
     /**
@@ -44,7 +36,7 @@ class StudentRecord extends Model
      * @var string
      */
     const UPDATED_AT = 'update_log';
-    
+
     /**
      * @param $value
      * @return false|string
@@ -62,10 +54,4 @@ class StudentRecord extends Model
     {
         return Carbon::parse($this->attributes['update_log'])->format('F j, Y h:i A');
     }
-
-    public function student()
-    {
-        return $this->belongsTo(Student::class);
-    }
-
 }
