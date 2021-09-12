@@ -12,7 +12,11 @@ use App\Traits\Dumper;
 
 use App\Models\User;
 use App\Models\Student;
+use App\Models\Enrollment;
+
 use App\Http\Resources\Students\Profile;
+use App\Http\Resources\Students\EnrollmentsCollection;
+use App\Http\Resources\Students\Enrollment as EnrollmentDetail;
 
 class PortalController extends Controller
 {
@@ -45,8 +49,46 @@ class PortalController extends Controller
 
         $student = Student::find($student_id);
 
-        // return $student;
         $data = new Profile($student);
+
+        return $this->jsonSuccessResponse($data, $this->http_code_ok); 
+    }
+
+    /**
+     * @group Students->Portal
+     * 
+     * Student Enrollments List
+     * 
+     * @authenticated
+     */
+    public function enrollments(Request $request)
+    {
+        $user = Auth::guard('api')->user();
+
+        $student_id = $user->student_id;
+
+        $student = Student::find($student_id);
+
+        $enrollments = $student->enrollments;
+        $results = new EnrollmentsCollection($enrollments);
+
+        return $this->jsonSuccessResponse($results, $this->http_code_ok); 
+    }
+
+    /**
+     * @group Students->Portal
+     * 
+     * Enrollment detail
+     * 
+     * @urlParam id integer required
+     * 
+     * @authenticated
+     */
+    public function enrollment($id)
+    {
+        $enrollment = Enrollment::find($id);
+
+        $data = new EnrollmentDetail($enrollment);
 
         return $this->jsonSuccessResponse($data, $this->http_code_ok); 
     }

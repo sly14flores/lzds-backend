@@ -149,6 +149,11 @@ class Enrollment extends Model
         return $this->hasOne(StudentsDiscount::class, 'enrollment_id', 'id');
     }
 
+    public function student_voucher()
+    {
+        return $this->hasOne(StudentVoucher::class, 'enrollment_id', 'id');
+    }
+
     public function dtr()
     {
         return $this->hasMany(DtrStudent::class, 'rfid', 'rfid');

@@ -109,6 +109,8 @@ Route::prefix('portal')->group(function() {
     Route::prefix('student')->group(function() {
 
         Route::get('profile', [PortalController::class, 'profile']);
+        Route::get('enrollments', [PortalController::class, 'enrollments']);
+        Route::get('enrollment/{id}', [PortalController::class, 'enrollment']);
 
     });
 
