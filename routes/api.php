@@ -23,6 +23,8 @@ use App\Http\Controllers\Api\EnrollmentController;
 use App\Http\Controllers\Api\DefaultPasswords;
 use App\Http\Controllers\Api\Students\PortalController;
 
+use App\Http\Controllers\Api\EmailController;
+
 /**
  * Addresses
  */
@@ -115,3 +117,8 @@ Route::prefix('portal')->group(function() {
     });
 
 });
+
+/**
+ * Send Email
+ */
+Route::post('send/email', [EmailController::class, 'send']);
