@@ -95,6 +95,11 @@ Route::prefix('login')->group(function() {
 });
 
 /**
+ * Logout
+ */
+Route::post('logout', [LoginController::class, 'logout']);
+
+/**
  * Default Passwords
  */
 Route::prefix('update/password')->group(function() {
