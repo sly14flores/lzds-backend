@@ -111,4 +111,20 @@ class LoginController extends Controller
         return $this->jsonSuccessResponse($data, 200);
     }
 
+    /**
+     * @group Authentications
+     * 
+     * User logout
+     * 
+     * @authenticated
+     */
+    public function logout()
+    {
+        $revoked = Auth::guard('api')->user()->token()->revoke();
+        if ($revoked) {
+            return $this->jsonSuccessLogout();
+        }
+        return $this->jsonFailedResponse(null, 500, 'Something went wrong.');
+    }
+
 }
