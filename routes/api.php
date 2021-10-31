@@ -25,6 +25,8 @@ use App\Http\Controllers\Api\Students\PortalController;
 
 use App\Http\Controllers\Api\EmailController;
 
+use App\Http\Controllers\Api\ResetPasswordController;
+
 /**
  * Addresses
  */
@@ -106,6 +108,16 @@ Route::prefix('update/password')->group(function() {
     
     Route::put('student', [DefaultPasswords::class, 'student']);
     
+});
+
+/**
+ * Forgot Password
+ */
+Route::prefix('password')->group(function() {
+
+    Route::post('email', [ResetPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('reset', [ResetPasswordController::class, 'resetPassword']);
+
 });
 
 /**

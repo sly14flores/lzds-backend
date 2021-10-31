@@ -11,6 +11,8 @@ use Laravel\Passport\HasApiTokens;
 use Carbon\Carbon;
 use App\Traits\Uuids;
 
+use App\Notifications\UserResetPasswordNotification;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, Uuids;
@@ -55,5 +57,20 @@ class User extends Authenticatable
     {
         return Carbon::parse($this->attributes['updated_at'])->format('F j, Y h:i A');
     }
+
+	/**
+	 * Send password reset link user
+     * 
+	 * @param  string  $token
+	 * @return void
+	 */
+	public function sendPasswordResetNotification($token)
+	{
+		$payload = [
+			'id'=>$this->id,
+			'token'=>$token
+		];
+		$this->notify(new UserResetPasswordNotification($payload));
+	}
 
 }
