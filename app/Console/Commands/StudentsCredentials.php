@@ -57,6 +57,7 @@ class StudentsCredentials extends Command
                 $user = new User;
                 $user->lrn = $student->lrn;
                 $user->student_id = $student->id;
+                $user->email = $student->email_address;
 
                 $lastname = strtoupper($student->lastname);
                 $dob = str_replace("-","",$student->date_of_birth);
