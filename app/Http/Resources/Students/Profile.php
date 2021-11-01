@@ -14,6 +14,19 @@ class Profile extends JsonResource
      */
     public function toArray($request)
     {
+
+        $parents = $this->parents()->get([
+            'id',
+            'relationship',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'ext_name',
+            'maiden_name',
+            'occupation',
+            'contact_no',
+        ]);
+
         return [
             'id' => $this->id,
             'lrn' => $this->lrn,
@@ -31,7 +44,7 @@ class Profile extends JsonResource
             'mother_tongue' => $this->mother_tongue,
             'religion' => $this->religion,
             'ethnicity' => $this->ethnicity,
-            'parents' => []
+            'parents' => $parents,
         ];
     }
 }
