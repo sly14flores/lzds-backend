@@ -42,7 +42,7 @@ class UserResetPasswordNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-		$email_link = env('FRONTEND_URL').'/reset-password/'.$this->payload['id'].'/'.$this->payload['token'];
+		$email_link = env('PORTAL_URL').'/reset-password/'.$this->payload['id'].'/'.$this->payload['token'];
 		
         return (new MailMessage)
 					->subject('Reset you password')
