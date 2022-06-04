@@ -21,6 +21,7 @@ class Enrollment extends Model
         'school_id',
         'grade',
         'section',
+        'strand',
         'student_status',
         'payment_mode',
         'payment_method',
