@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\DefaultPasswords;
 use App\Http\Controllers\Api\Students\PortalController;
 
 use App\Http\Controllers\Api\EmailController;
+use App\Http\Controllers\Api\SendParentalConsent;
 
 use App\Http\Controllers\Api\ResetPasswordController;
 
@@ -139,3 +140,8 @@ Route::prefix('portal')->group(function() {
  * Send Email
  */
 Route::post('send/email', [EmailController::class, 'send']);
+
+/**
+ * Send Parental Consent
+ */
+Route::post('send/parental-consent', SendParentalConsent::class);

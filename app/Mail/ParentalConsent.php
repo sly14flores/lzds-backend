@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ParentalConsent extends Mailable
+class ParentalConsent extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -28,6 +28,7 @@ class ParentalConsent extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->markdown('emails.consent')
+                    ->attachFromStorage("public/parental-consent.pdf");
     }
 }
