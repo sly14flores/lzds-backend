@@ -4,24 +4,24 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use Illuminate\Support\Facades\Mail;
 use App\Mail\ParentalConsent;
+use Illuminate\Support\Facades\Mail;
 
-class SendParentalConsent extends Command
+class TestMailer extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'consent:send';
+    protected $signature = 'mailer:test {mailer}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Email parental consent';
+    protected $description = 'Test mailer';
 
     /**
      * Create a new command instance.
@@ -40,8 +40,9 @@ class SendParentalConsent extends Command
      */
     public function handle()
     {
-
+        $mailer = $this->argument('mailer');
         $email = "sly@christian.com.ph";
+
         Mail::mailer("mailjet")->to($email)->send(new ParentalConsent());
 
         return 0;
