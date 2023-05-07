@@ -15,3 +15,5 @@ yarn-error.log
 .scribe
 public/vendor/scribe/*
 resources/views/scribe/*
+
+composer.phar
