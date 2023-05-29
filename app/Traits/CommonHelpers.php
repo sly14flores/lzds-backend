@@ -14,6 +14,13 @@ trait CommonHelpers {
         return $school_year->id;
     }
 
+    public function _currentSy()
+    {
+        $school_year = SchoolYear::where('is_current',true)->first();
+
+        return $school_year->school_year;
+    }
+
     public function currentSyYear()
     {
         $school_year = SchoolYear::where('is_current',true)->first();
