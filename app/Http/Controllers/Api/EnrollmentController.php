@@ -397,6 +397,13 @@ class EnrollmentController extends Controller
 
         return $this->jsonSuccessResponse(null, 200, 'Paypal reference number submitted');
 
-    }    
+    }
+
+    public function currentSchoolYear()
+    {
+
+        return $this->jsonSuccessResponse($this->_currentSy(), 200);
+
+    }
 
 }
