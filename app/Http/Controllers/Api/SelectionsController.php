@@ -49,10 +49,12 @@ class SelectionsController extends Controller
 
         foreach ($fees as $i => $fee) {
             $item = FeeItem::where([['fee_id',$fee->id],['level',$level_id]])->first();
-            $fees[$i]['amount'] = $item->amount;
-            $fees[$i]['fee_item_id'] = $item->id;
+            $fees[$i]['amount'] = $item ? $item->amount : 0;
+            $fees[$i]['fee_item_id'] = $item ? $item->id : null;
             $fees[$i]['no'] = $i+1;
-            if ($fee['category'] == 'Tuition Fees') $tuition_fee = $item->amount;
+            if ($fee['category'] == 'Tuition Fees') {
+                $tuition_fee = $item ? $item->amount : 0;
+            }
         }
 
         $total_fees = collect($fees)->sum('amount');
