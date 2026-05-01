@@ -1,11 +1,11 @@
 services:
   # PHP Application
-  app:
+  laravel8:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: laravel-php
-    container_name: app
+    image: laravel8-php7.4
+    container_name: laravel8
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -15,12 +15,12 @@ services:
             limits:
                 memory: 2G
             reservations:
-                memory: 1G      
+                memory: 1G
 
   # Nginx Web Server
-  nginx:
+  nginx-laravel8:
     image: nginx:alpine
-    container_name: nginx
+    container_name: nginx-laravel8
     restart: unless-stopped
     ports:
       - "8082:80"
@@ -28,7 +28,7 @@ services:
       - .:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - app
+      - laravel8
     deploy:
         resources:
             limits:
