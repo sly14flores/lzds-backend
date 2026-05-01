@@ -16,7 +16,6 @@ services:
                 memory: 2G
             reservations:
                 memory: 1G
-
   # Nginx Web Server
   nginx-laravel8-lzds:
     image: nginx:alpine
@@ -27,6 +26,21 @@ services:
     volumes:
       - .:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - laravel8-lzds
+    deploy:
+        resources:
+            limits:
+                memory: 2G
+            reservations:
+                memory: 1G
+  queue-worker:
+    image: laravel8-php7.4
+    container_name: queue-worker
+    restart: unless-stopped
+    volumes:
+      - .:/var/www
+    command: php /var/www/artisan queue:work --verbose --tries=3 --timeout=90
     depends_on:
       - laravel8-lzds
     deploy:
