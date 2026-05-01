@@ -1,0 +1,37 @@
+services:
+  # PHP Application
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    image: laravel-php
+    container_name: app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    deploy:
+        resources:
+            limits:
+                memory: 2G
+            reservations:
+                memory: 1G      
+
+  # Nginx Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+    deploy:
+        resources:
+            limits:
+                memory: 2G
+            reservations:
+                memory: 1G
