@@ -1,6 +1,6 @@
 services:
   # PHP Application
-  laravel8:
+  laravel8-lzds:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
@@ -18,7 +18,7 @@ services:
                 memory: 1G
 
   # Nginx Web Server
-  nginx-laravel8:
+  nginx-laravel8-lzds:
     image: nginx:alpine
     container_name: nginx-laravel8
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
       - .:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - laravel8
+      - laravel8-lzds
     deploy:
         resources:
             limits:
