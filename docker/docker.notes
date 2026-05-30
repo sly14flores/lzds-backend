@@ -1,3 +1,5 @@
 docker-compose exec laravel8-test composer install
 docker-compose exec laravel8-test php artisan key:generate
 docker-compose exec laravel8-test chmod -R 777 storage bootstrap/cache
+
+docker run --name lzds-backend-laravel8-redis-test -p 6380:6379 --restart always -m 1G -d redis

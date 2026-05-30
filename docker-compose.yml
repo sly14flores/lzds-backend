@@ -22,7 +22,7 @@ services:
     container_name: nginx-laravel8-test
     restart: unless-stopped
     ports:
-      - "8085:80"
+      - "8086:80"
     volumes:
       - .:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
