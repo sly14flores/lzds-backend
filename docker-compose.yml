@@ -1,11 +1,11 @@
 services:
   # PHP Application
-  laravel8-lzds:
+  laravel8-lzds-test:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    image: laravel8-php7.4
-    container_name: laravel8
+    image: laravel8-php7.4-test
+    container_name: laravel8-test
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -17,17 +17,17 @@ services:
             reservations:
                 memory: 1G
   # Nginx Web Server
-  nginx-laravel8-lzds:
+  nginx-laravel8-lzds-test:
     image: nginx:alpine
-    container_name: nginx-laravel8
+    container_name: nginx-laravel8-test
     restart: unless-stopped
     ports:
-      - "8082:80"
+      - "8085:80"
     volumes:
       - .:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - laravel8-lzds
+      - laravel8-lzds-test
     deploy:
         resources:
             limits:
@@ -35,14 +35,14 @@ services:
             reservations:
                 memory: 1G
   queue-worker:
-    image: laravel8-php7.4
-    container_name: queue-worker
+    image: laravel8-php7.4-test
+    container_name: queue-worker-test
     restart: unless-stopped
     volumes:
       - .:/var/www
     command: php /var/www/artisan queue:work --verbose --tries=3 --timeout=90
     depends_on:
-      - laravel8-lzds
+      - laravel8-lzds-test
     deploy:
         resources:
             limits:
